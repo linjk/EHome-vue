@@ -2,24 +2,22 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import FastClick from 'fastclick'
-import VueRouter from 'vue-router'
+import router from './router'
 import App from './App'
-import Home from './components/HelloFromVux'
-
-Vue.use(VueRouter)
-
-const routes = [{
-  path: '/',
-  component: Home
-}]
-
-const router = new VueRouter({
-  routes
-})
 
 FastClick.attach(document.body)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+router.beforeEach(function (to, from, next) {
+  if (/\/http/.test(to.path)) {
+    let url = to.path.split('http')[1];
+    windows.location.href = `http${url}`
+  }
+  else {
+    next()
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({
